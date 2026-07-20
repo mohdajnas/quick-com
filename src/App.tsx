@@ -14,7 +14,7 @@ import { Home, Grid, Printer, User, ArrowRight, X, Check, MapPin, CreditCard, Sh
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'categories' | 'print' | 'profile'>('categories');
+  const [activeTab, setActiveTab] = useState<'home' | 'categories' | 'print' | 'profile'>('home');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('dairy');
   const [searchQuery, setSearchQuery] = useState<string>('');
