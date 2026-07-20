@@ -1,0 +1,6 @@
+{
+  "name": "Instant Grocery Delivery",
+  "description": "A rapid grocery delivery category browsing and cart experience featuring bento-grid layouts, rapid cart additions, and persistent shopping states.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Brand Colors from Velocity Grid spec */
+  --color-primary: #006e0e; /* Blinkit Green */
+  --color-primary-container: #00b31e;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #003c04;
+  
+  --color-secondary: #6f5d00;
+  --color-secondary-container: #ffde4e; /* Urgency Yellow */
+  --color-on-secondary-container: #746200;
+  
+  --color-surface: #f9f9f9;
+  --color-surface-dim: #dadada;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f3;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+  
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #3d4a39;
+  --color-outline: #6d7b67;
+  --color-outline-variant: #bccbb4;
+  
+  --color-primary-fixed: #74ff6a;
+  --color-on-primary-fixed: #002201;
+  --color-secondary-fixed: #ffe264;
+}
+
+@layer base {
+  body {
+    background-color: #f5f5f5;
+    font-family: var(--font-sans);
+    color: var(--color-on-surface);
+  }
+}
+
+.bento-inner-glow {
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
