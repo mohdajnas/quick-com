@@ -82,7 +82,7 @@ export default function CategoriesView({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-primary text-white text-xs px-4 py-2 flex items-center justify-between font-bold"
+            className="bg-primary text-white text-xs px-4 py-2 flex items-center justify-between font-semibold"
           >
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 bg-red-400 rounded-full animate-ping"></span>
@@ -152,7 +152,7 @@ export default function CategoriesView({
                   }}
                   className={`flex flex-col items-center py-4 gap-1.5 transition-all relative cursor-pointer ${
                     isActive
-                      ? 'border-r-4 border-primary bg-white text-primary font-bold'
+                      ? 'border-r-4 border-primary bg-white text-primary font-semibold'
                       : 'text-on-surface-variant hover:bg-surface-container/60'
                   }`}
                 >
@@ -166,7 +166,7 @@ export default function CategoriesView({
                       className="w-10 h-10 object-contain"
                     />
                   </div>
-                  <span className="text-[11px] font-bold tracking-wider text-center px-1">
+                  <span className="text-[11px] font-semibold tracking-wider text-center px-1">
                     {cat.name}
                   </span>
                 </button>
@@ -179,7 +179,7 @@ export default function CategoriesView({
         <section className="flex-1 bg-white overflow-y-auto hide-scrollbar p-4">
           {/* Header Row */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-on-surface">
+            <h2 className="text-lg font-semibold text-on-surface">
               {searchQuery ? `Search Results for "${searchQuery}"` : `${activeCategory.name} & Bread`}
             </h2>
             <span className="text-xs text-outline font-semibold">
@@ -206,7 +206,7 @@ export default function CategoriesView({
               <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center text-outline mb-4">
                 <AlertCircle className="w-8 h-8" />
               </div>
-              <h3 className="text-base font-bold text-on-surface">No products found</h3>
+              <h3 className="text-base font-semibold text-on-surface">No products found</h3>
               <p className="text-xs text-on-surface-variant mt-1 max-w-[200px]">
                 We couldn't find matching items in this catalog.
               </p>
@@ -216,7 +216,7 @@ export default function CategoriesView({
                   setSearchQuery('');
                   setSelectedCategoryId('dairy');
                 }}
-                className="mt-4 bg-primary text-on-primary hover:bg-primary/90 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer"
+                className="mt-4 bg-primary text-on-primary hover:bg-primary/90 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>Reset View</span>

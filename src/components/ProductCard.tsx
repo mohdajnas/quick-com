@@ -40,7 +40,7 @@ export default function ProductCard({
       {/* Image Area */}
       <div className="relative aspect-square bg-surface-container-lowest p-3 flex items-center justify-center overflow-hidden">
         {product.tag && (
-          <div className={`absolute top-2 left-2 px-1.5 py-0.5 rounded-sm text-[10px] font-bold tracking-wider uppercase z-10 ${getTagClass(product.tag)}`}>
+          <div className={`absolute top-2 left-2 px-1.5 py-0.5 rounded-sm text-[10px] font-semibold tracking-wider uppercase z-10 ${getTagClass(product.tag)}`}>
             {product.tag}
           </div>
         )}
@@ -57,7 +57,7 @@ export default function ProductCard({
         <span className="text-[11px] text-on-surface-variant font-medium truncate mb-1">
           {product.subCategory}
         </span>
-        <h3 className="text-sm font-bold text-on-surface leading-tight line-clamp-2 h-10 mb-2">
+        <h3 className="text-sm font-semibold text-on-surface leading-tight line-clamp-2 h-10 mb-2">
           {product.name}
         </h3>
 
@@ -65,7 +65,7 @@ export default function ProductCard({
         <div className="mt-auto pt-2 flex items-end justify-between gap-1">
           <div className="flex flex-col">
             <span className="text-xs text-outline">{product.weight}</span>
-            <span className="text-lg font-extrabold text-on-surface">
+            <span className="text-lg font-semibold text-on-surface">
               ₹{product.price}
             </span>
           </div>
@@ -84,7 +84,7 @@ export default function ProductCard({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.15 }}
-                  className="h-8 px-4 bg-primary hover:bg-primary/90 text-on-primary rounded-lg text-xs font-bold transition-all active:scale-95 bento-inner-glow flex items-center justify-center gap-1 cursor-pointer"
+                  className="h-8 px-4 bg-primary hover:bg-primary/90 text-on-primary rounded-lg text-xs font-semibold transition-all active:scale-95 bento-inner-glow flex items-center justify-center gap-1 cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>ADD</span>
@@ -108,7 +108,7 @@ export default function ProductCard({
                   >
                     <Minus className="w-3.5 h-3.5" />
                   </button>
-                  <span className="text-sm font-extrabold px-1 min-w-[14px] text-center">
+                  <span className="text-sm font-semibold px-1 min-w-[14px] text-center">
                     {quantity}
                   </span>
                   <button

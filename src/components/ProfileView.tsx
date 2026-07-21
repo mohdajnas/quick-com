@@ -64,14 +64,14 @@ export default function ProfileView({
     <div className="flex flex-col pb-24 px-4 pt-6 max-w-2xl mx-auto gap-6">
       {/* Profile Card */}
       <div className="bg-white border border-neutral-200/60 rounded-2xl p-5 flex items-center gap-4 shadow-xs">
-        <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center text-primary text-xl font-black border border-primary/20">
+        <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center text-primary text-xl font-semibold border border-primary/20">
           {userEmail.substring(0, 2).toUpperCase()}
         </div>
         <div className="min-w-0 flex-1">
-          <span className="text-[10px] bg-secondary-container text-on-secondary-container font-extrabold px-2 py-0.5 rounded-full uppercase">
+          <span className="text-[10px] bg-secondary-container text-on-secondary-container font-semibold px-2 py-0.5 rounded-full uppercase">
             VIP member
           </span>
-          <h2 className="text-base font-bold text-on-surface truncate mt-1">
+          <h2 className="text-base font-semibold text-on-surface truncate mt-1">
             {userEmail}
           </h2>
           <p className="text-xs text-outline">Joined July 2026</p>
@@ -93,14 +93,14 @@ export default function ProfileView({
 
             <div className="flex justify-between items-start mb-3">
               <div>
-                <span className="bg-primary-container text-on-primary-container text-[9px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded">
+                <span className="bg-primary-container text-on-primary-container text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded">
                   Active Delivery • {activeOrder.id}
                 </span>
-                <h3 className="text-base font-extrabold mt-1">Rider is on the way!</h3>
+                <h3 className="text-base font-semibold mt-1">Rider is on the way!</h3>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-black text-[#74ff6a]">{activeOrder.etaMinutes}</span>
-                <span className="text-[10px] text-white/80 block uppercase tracking-wider font-bold">MINUTES ETA</span>
+                <span className="text-2xl font-semibold text-[#74ff6a]">{activeOrder.etaMinutes}</span>
+                <span className="text-[10px] text-white/80 block uppercase tracking-wider font-semibold">MINUTES ETA</span>
               </div>
             </div>
 
@@ -116,7 +116,7 @@ export default function ProfileView({
                   }}
                 />
               </div>
-              <span className="text-[10px] font-bold text-[#74ff6a] uppercase">
+              <span className="text-[10px] font-semibold text-[#74ff6a] uppercase">
                 {activeOrder.status}
               </span>
             </div>
@@ -126,7 +126,7 @@ export default function ProfileView({
               <button
                 id="cancel-active-order-btn"
                 onClick={onCancelActiveOrder}
-                className="text-red-300 hover:text-red-200 font-bold hover:underline cursor-pointer"
+                className="text-red-300 hover:text-red-200 font-semibold hover:underline cursor-pointer"
               >
                 Cancel Order
               </button>
@@ -134,7 +134,7 @@ export default function ProfileView({
               <button
                 id="advance-order-status-btn"
                 onClick={onAdvanceActiveOrderStatus}
-                className="bg-[#74ff6a] text-[#002201] hover:bg-[#4fe24b] font-bold px-3 py-1 rounded transition-colors cursor-pointer"
+                className="bg-[#74ff6a] text-[#002201] hover:bg-[#4fe24b] font-semibold px-3 py-1 rounded transition-colors cursor-pointer"
               >
                 {activeOrder.status === 'Arrived' ? 'Acknowledge Delivery' : 'Speed up Delivery'}
               </button>
@@ -146,14 +146,14 @@ export default function ProfileView({
       {/* Address Management Bento */}
       <div className="bg-white border border-neutral-200/60 rounded-2xl p-5 flex flex-col gap-4 shadow-xs">
         <div className="flex justify-between items-center">
-          <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+          <h3 className="text-sm font-semibold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
             <MapPin className="w-4 h-4 text-primary" />
             <span>Saved Addresses</span>
           </h3>
           <button
             id="toggle-add-addr-btn"
             onClick={() => setIsAddingAddr(!isAddingAddr)}
-            className="text-xs text-primary font-bold hover:underline flex items-center gap-1 cursor-pointer"
+            className="text-xs text-primary font-semibold hover:underline flex items-center gap-1 cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add New</span>
@@ -170,7 +170,7 @@ export default function ProfileView({
                   type="button"
                   id={`addr-label-btn-${lbl}`}
                   onClick={() => setNewLabel(lbl)}
-                  className={`px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                  className={`px-3 py-1 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
                     newLabel === lbl ? 'bg-primary text-white' : 'bg-white border border-neutral-200 text-on-surface'
                   }`}
                 >
@@ -192,14 +192,14 @@ export default function ProfileView({
                 type="button"
                 id="cancel-add-addr-btn"
                 onClick={() => setIsAddingAddr(false)}
-                className="px-3 py-1.5 hover:underline font-bold text-on-surface"
+                className="px-3 py-1.5 hover:underline font-semibold text-on-surface"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 id="save-new-addr-btn"
-                className="bg-primary text-on-primary font-bold px-3 py-1.5 rounded-lg hover:bg-primary/95 cursor-pointer"
+                className="bg-primary text-on-primary font-semibold px-3 py-1.5 rounded-lg hover:bg-primary/95 cursor-pointer"
               >
                 Save Address
               </button>
@@ -211,11 +211,11 @@ export default function ProfileView({
           {addresses.map((addr) => (
             <div key={addr.id} className="p-3 bg-neutral-50 rounded-xl border border-neutral-100 flex items-start gap-3 text-xs justify-between group">
               <div className="flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-neutral-200 flex items-center justify-center text-on-surface font-extrabold flex-shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-neutral-200 flex items-center justify-center text-on-surface font-semibold flex-shrink-0">
                   {addr.label[0]}
                 </div>
                 <div className="flex-1">
-                  <span className="font-extrabold text-on-surface">{addr.label}</span>
+                  <span className="font-semibold text-on-surface">{addr.label}</span>
                   {editingAddrId === addr.id ? (
                     <div className="mt-1.5 flex gap-1">
                       <input
@@ -257,7 +257,7 @@ export default function ProfileView({
 
       {/* Order History Bento */}
       <div className="bg-white border border-neutral-200/60 rounded-2xl p-5 flex flex-col gap-4 shadow-xs">
-        <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+        <h3 className="text-sm font-semibold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
           <Package className="w-4 h-4 text-[#ffde4e]" />
           <span>Past Orders</span>
         </h3>
@@ -267,12 +267,12 @@ export default function ProfileView({
             <div key={order.id} className="pt-3 first:pt-0 flex flex-col gap-2">
               <div className="flex justify-between items-start text-xs">
                 <div>
-                  <span className="font-mono font-extrabold text-on-surface">{order.id}</span>
+                  <span className="font-mono font-semibold text-on-surface">{order.id}</span>
                   <p className="text-[10px] text-outline mt-0.5">{order.date}</p>
                 </div>
                 <div className="text-right">
-                  <span className="font-bold text-on-surface">₹{order.total}</span>
-                  <p className="text-[10px] text-emerald-700 font-bold mt-0.5">{order.status}</p>
+                  <span className="font-semibold text-on-surface">₹{order.total}</span>
+                  <p className="text-[10px] text-emerald-700 font-semibold mt-0.5">{order.status}</p>
                 </div>
               </div>
 
@@ -291,7 +291,7 @@ export default function ProfileView({
                   type="button"
                   id={`reorder-btn-${order.id}`}
                   onClick={() => onReorder(order.items)}
-                  className="text-xs bg-primary-container/10 hover:bg-primary-container/20 text-primary font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+                  className="text-xs bg-primary-container/10 hover:bg-primary-container/20 text-primary font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                   <span>Reorder All Items</span>
@@ -306,13 +306,13 @@ export default function ProfileView({
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white border border-neutral-200/60 p-4 rounded-2xl shadow-xs text-center">
           <Heart className="w-5 h-5 text-red-500 mx-auto mb-1 fill-red-500" />
-          <span className="text-lg font-black text-on-surface">8 Mins</span>
-          <p className="text-[10px] text-outline uppercase font-extrabold mt-0.5">Fastest Delivery</p>
+          <span className="text-lg font-semibold text-on-surface">8 Mins</span>
+          <p className="text-[10px] text-outline uppercase font-semibold mt-0.5">Fastest Delivery</p>
         </div>
         <div className="bg-white border border-neutral-200/60 p-4 rounded-2xl shadow-xs text-center">
           <Settings className="w-5 h-5 text-primary mx-auto mb-1" />
-          <span className="text-lg font-black text-on-surface">₹380 Saved</span>
-          <p className="text-[10px] text-outline uppercase font-extrabold mt-0.5">Using Super Coupons</p>
+          <span className="text-lg font-semibold text-on-surface">₹380 Saved</span>
+          <p className="text-[10px] text-outline uppercase font-semibold mt-0.5">Using Super Coupons</p>
         </div>
       </div>
     </div>

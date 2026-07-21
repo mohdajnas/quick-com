@@ -52,6 +52,8 @@ interface HomeViewProps {
   onQuickAdd: (product: Product) => void;
   cartQuantities: Record<string, number>;
   onProfileClick: () => void;
+  language: 'en' | 'ml';
+  setLanguage: (lang: 'en' | 'ml') => void;
 }
 
 export default function HomeView({
@@ -60,6 +62,8 @@ export default function HomeView({
   onQuickAdd,
   cartQuantities,
   onProfileClick,
+  language,
+  setLanguage,
 }: HomeViewProps) {
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -92,8 +96,8 @@ export default function HomeView({
               <Bike className="w-5 h-5" />
             </div>
             <div>
-              <div className="flex items-center gap-1 text-on-surface font-extrabold text-sm">
-                <span>Delivery in 10 mins</span>
+              <div className="flex items-center gap-1 text-on-surface font-semibold text-sm">
+                <span>{language === 'ml' ? '10 മിനിറ്റിനുള്ളിൽ ഡെലിവറി' : 'Delivery in 10 mins'}</span>
                 <span className="text-secondary">⚡</span>
               </div>
               <div className="flex items-center gap-1 text-xs text-on-surface-variant">
@@ -102,12 +106,20 @@ export default function HomeView({
               </div>
             </div>
           </div>
-          <button 
-            onClick={onProfileClick}
-            className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary cursor-pointer hover:bg-primary/20 transition-colors"
-          >
-            <User className="w-5 h-5" />
-          </button>
+          <div className="flex gap-2">
+            <button 
+              onClick={() => setLanguage(language === 'en' ? 'ml' : 'en')}
+              className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary cursor-pointer hover:bg-primary/20 transition-colors font-semibold text-xs"
+            >
+              {language === 'en' ? 'ML' : 'EN'}
+            </button>
+            <button 
+              onClick={onProfileClick}
+              className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary cursor-pointer hover:bg-primary/20 transition-colors"
+            >
+              <User className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Search Bar - Jumps to Categories with search focus */}
@@ -117,12 +129,12 @@ export default function HomeView({
           </div>
           <input
             type="text"
-            placeholder="Search for 'Milk', 'Eggs', 'Croissant'..."
+            placeholder={language === 'ml' ? "തിരയുക: പാൽ, മുട്ട..." : "Search for 'Milk', 'Eggs', 'Croissant'..."}
             onChange={(e) => onSearchQuery(e.target.value)}
             className="w-full bg-surface-container rounded-xl py-3 pl-10 pr-10 text-sm font-medium border-none focus:ring-2 focus:ring-primary outline-none transition-all placeholder:text-outline"
           />
-          <div className="absolute inset-y-0 right-3 flex items-center gap-1.5 text-xs text-primary font-bold">
-            <span className="px-1.5 py-0.5 bg-primary/10 rounded">Enter</span>
+          <div className="absolute inset-y-0 right-3 flex items-center gap-1.5 text-xs text-primary font-semibold">
+            <span className="px-1.5 py-0.5 bg-primary/10 rounded">{language === 'ml' ? 'പോകുക' : 'Enter'}</span>
           </div>
         </div>
       </div>
@@ -149,15 +161,15 @@ export default function HomeView({
                   <div className="flex justify-between items-start gap-4">
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className={`text-[10px] uppercase tracking-wider font-black px-2 py-0.5 rounded-full ${ad.tagBgClass}`}>
+                        <span className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${ad.tagBgClass}`}>
                           {ad.tag}
                         </span>
-                        <span className="bg-[#ffde4e] text-[#746200] text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+                        <span className="bg-[#ffde4e] text-[#746200] text-[10px] font-semibold px-1.5 py-0.5 rounded flex items-center gap-1">
                           <Percent className="w-2.5 h-2.5" />
                           <span>{ad.discount}</span>
                         </span>
                       </div>
-                      <h2 className="text-lg font-extrabold mt-2 leading-tight tracking-tight drop-shadow-xs line-clamp-2">
+                      <h2 className="text-lg font-semibold mt-2 leading-tight tracking-tight drop-shadow-xs line-clamp-2">
                         {ad.title}
                       </h2>
                       <p className="text-xs opacity-90 mt-1 max-w-[240px] line-clamp-2 leading-snug font-medium">
@@ -180,7 +192,7 @@ export default function HomeView({
                   <div className="flex justify-between items-center pt-2 border-t border-white/10">
                     <div className="flex items-center gap-1.5 bg-black/15 px-2.5 py-1 rounded-lg">
                       <Gift className="w-3.5 h-3.5 text-[#ffe264]" />
-                      <span className="text-[10px] font-mono font-bold tracking-wider">
+                      <span className="text-[10px] font-mono font-semibold tracking-wider">
                         CODE: <strong className="text-[#ffe264]">{ad.code}</strong>
                       </span>
                     </div>
@@ -188,7 +200,7 @@ export default function HomeView({
                     <button
                       id={`promo-btn-${ad.id}`}
                       onClick={() => onSelectCategory(ad.catId)}
-                      className="bg-white hover:bg-neutral-100 text-on-surface text-[11px] font-black px-3.5 py-1.5 rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer shadow-xs"
+                      className="bg-white hover:bg-neutral-100 text-on-surface text-[11px] font-semibold px-3.5 py-1.5 rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer shadow-xs"
                     >
                       <span>Claim Deal</span>
                       <ArrowRight className="w-3 h-3" />
@@ -240,16 +252,16 @@ export default function HomeView({
       <div className="px-4 pt-3 grid grid-cols-2 gap-3">
         <div className="bg-secondary-container rounded-xl p-3.5 flex flex-col justify-between border border-yellow-200">
           <div>
-            <span className="bg-white/80 text-on-surface text-[9px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-full">
+            <span className="bg-white/80 text-on-surface text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full">
               Lightning Delivery
             </span>
-            <h3 className="text-xs font-black text-on-surface mt-1.5 leading-tight">
+            <h3 className="text-xs font-semibold text-on-surface mt-1.5 leading-tight">
               Delivered in under 10 minutes!
             </h3>
           </div>
           <button 
             onClick={() => onSelectCategory('dairy')}
-            className="mt-2.5 self-start bg-on-surface text-white hover:bg-neutral-800 text-[10px] font-bold px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer"
+            className="mt-2.5 self-start bg-on-surface text-white hover:bg-neutral-800 text-[10px] font-semibold px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer"
           >
             <span>Order Milk</span>
             <ArrowRight className="w-2.5 h-2.5" />
@@ -258,16 +270,16 @@ export default function HomeView({
 
         <div className="bg-emerald-800 rounded-xl p-3.5 text-white flex flex-col justify-between">
           <div>
-            <span className="bg-emerald-700 text-emerald-200 text-[9px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-full">
+            <span className="bg-emerald-700 text-emerald-200 text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full">
               Super Saver
             </span>
-            <h3 className="text-xs font-black mt-1.5 leading-tight">
+            <h3 className="text-xs font-semibold mt-1.5 leading-tight">
               Flat 20% Off on Bakeries
             </h3>
           </div>
           <button 
             onClick={() => onSelectCategory('bakery')}
-            className="mt-2.5 self-start bg-white text-emerald-900 hover:bg-neutral-100 text-[10px] font-bold px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer"
+            className="mt-2.5 self-start bg-white text-emerald-900 hover:bg-neutral-100 text-[10px] font-semibold px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer"
           >
             <span>Claim Offer</span>
             <ArrowRight className="w-2.5 h-2.5" />
@@ -278,7 +290,7 @@ export default function HomeView({
       {/* Categories Bento Selection Grid */}
       <div className="px-4 py-4">
         <div className="flex justify-between items-center mb-3">
-          <h3 className="text-base font-extrabold text-on-surface">Browse Categories</h3>
+          <h3 className="text-base font-semibold text-on-surface">Browse Categories</h3>
           <span className="text-xs text-outline font-medium">Bento Grid View</span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
@@ -296,7 +308,7 @@ export default function HomeView({
                   className="w-11 h-11 object-contain"
                 />
               </div>
-              <span className="text-xs font-extrabold text-on-surface mt-2">
+              <span className="text-xs font-semibold text-on-surface mt-2">
                 {cat.name}
               </span>
               <span className="text-[10px] text-outline font-semibold mt-0.5">
@@ -312,9 +324,9 @@ export default function HomeView({
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-1">
             <Flame className="w-4 h-4 text-orange-500 fill-orange-500" />
-            <h3 className="text-base font-extrabold text-on-surface">Trending This Hour</h3>
+            <h3 className="text-base font-semibold text-on-surface">Trending This Hour</h3>
           </div>
-          <span className="text-xs text-primary font-bold">Top Picks</span>
+          <span className="text-xs text-primary font-semibold">Top Picks</span>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
@@ -334,18 +346,18 @@ export default function HomeView({
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-[9px] font-bold text-outline uppercase">
+                  <span className="text-[9px] font-semibold text-outline uppercase">
                     {prod.subCategory}
                   </span>
-                  <h4 className="text-xs font-bold text-on-surface truncate">
+                  <h4 className="text-xs font-semibold text-on-surface truncate">
                     {prod.name}
                   </h4>
                   <div className="flex items-center justify-between mt-1">
-                    <span className="text-xs font-extrabold text-on-surface">₹{prod.price}</span>
+                    <span className="text-xs font-semibold text-on-surface">₹{prod.price}</span>
                     <button
                       id={`home-add-${prod.id}`}
                       onClick={() => onQuickAdd(prod)}
-                      className={`text-[10px] font-bold rounded-md px-2 py-1 transition-all ${
+                      className={`text-[10px] font-semibold rounded-md px-2 py-1 transition-all ${
                         qty > 0
                           ? 'bg-primary text-white'
                           : 'bg-primary-container/10 text-primary border border-primary/20 hover:bg-primary/10'
@@ -365,17 +377,17 @@ export default function HomeView({
       <div className="px-4 py-6 bg-neutral-100 mx-4 rounded-2xl grid grid-cols-3 gap-2 text-center mt-4">
         <div className="flex flex-col items-center">
           <Clock className="w-5 h-5 text-emerald-700 mb-1" />
-          <span className="text-[10px] font-extrabold text-on-surface">7-12 Min Avg</span>
+          <span className="text-[10px] font-semibold text-on-surface">7-12 Min Avg</span>
           <span className="text-[8px] text-outline">Supercharged Delivery</span>
         </div>
         <div className="flex flex-col items-center border-x border-neutral-200">
           <Zap className="w-5 h-5 text-yellow-600 mb-1" />
-          <span className="text-[10px] font-extrabold text-on-surface">No Minimums</span>
+          <span className="text-[10px] font-semibold text-on-surface">No Minimums</span>
           <span className="text-[8px] text-outline">Order any amount</span>
         </div>
         <div className="flex flex-col items-center">
           <Sparkles className="w-5 h-5 text-emerald-700 mb-1" />
-          <span className="text-[10px] font-extrabold text-on-surface">Fresh Promise</span>
+          <span className="text-[10px] font-semibold text-on-surface">Fresh Promise</span>
           <span className="text-[8px] text-outline">Hassle-free refunds</span>
         </div>
       </div>

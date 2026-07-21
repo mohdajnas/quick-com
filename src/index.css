@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Anek+Malayalam:wght@400;500;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -39,6 +39,10 @@
     font-family: var(--font-sans);
     color: var(--color-on-surface);
   }
+}
+
+.font-ml {
+  font-family: "Anek Malayalam", var(--font-sans);
 }
 
 .bento-inner-glow {

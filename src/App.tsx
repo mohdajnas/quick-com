@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'categories' | 'print' | 'profile'>('home');
+  const [language, setLanguage] = useState<'en' | 'ml'>('en');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('dairy');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -168,6 +169,8 @@ export default function App() {
             onQuickAdd={handleAddToCart}
             cartQuantities={cartQuantities}
             onProfileClick={() => setActiveTab('profile')}
+            language={language}
+            setLanguage={setLanguage}
           />
         );
       case 'categories':
@@ -205,7 +208,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 text-on-surface select-none relative pb-16">
+    <div className={`min-h-screen bg-neutral-50 text-on-surface select-none relative pb-16 ${language === 'ml' ? 'font-ml' : ''}`}>
       {/* Top Main Application viewport */}
       <main className="w-full max-w-lg mx-auto bg-white min-h-screen shadow-md flex flex-col relative overflow-x-hidden">
         {/* Dynamic Screen View */}
@@ -226,10 +229,10 @@ export default function App() {
             >
               <div className="flex items-center gap-3">
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-white/80">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-white/80">
                     {totalItemsCount} {totalItemsCount === 1 ? 'Item' : 'Items'}
                   </span>
-                  <span className="text-lg font-black font-mono">
+                  <span className="text-lg font-semibold font-mono">
                     ₹{totalCartPrice}
                   </span>
                 </div>
@@ -237,7 +240,7 @@ export default function App() {
               <button
                 id="view-cart-btn"
                 onClick={() => setCheckoutOpen(true)}
-                className="flex items-center gap-1.5 font-bold text-sm tracking-wide text-white hover:opacity-90 active:scale-95 transition-all cursor-pointer"
+                className="flex items-center gap-1.5 font-semibold text-sm tracking-wide text-white hover:opacity-90 active:scale-95 transition-all cursor-pointer"
               >
                 <span>VIEW CART</span>
                 <ArrowRight className="w-4 h-4" />
@@ -254,12 +257,12 @@ export default function App() {
             onClick={() => setActiveTab('home')}
             className={`flex flex-col items-center justify-center px-4 py-1.5 transition-all duration-200 cursor-pointer ${
               activeTab === 'home'
-                ? 'text-primary bg-primary-container/10 rounded-xl font-bold'
+                ? 'text-primary bg-primary-container/10 rounded-xl font-semibold'
                 : 'text-on-surface-variant hover:opacity-80'
             }`}
           >
             <Home className="w-5 h-5 mb-0.5" />
-            <span className="text-[11px] font-bold">Home</span>
+            <span className="text-[11px] font-semibold">Home</span>
           </button>
 
           {/* Categories (Active initially) */}
@@ -268,12 +271,12 @@ export default function App() {
             onClick={() => setActiveTab('categories')}
             className={`flex flex-col items-center justify-center px-4 py-1.5 transition-all duration-200 cursor-pointer ${
               activeTab === 'categories'
-                ? 'text-primary bg-primary-container/10 rounded-xl font-bold'
+                ? 'text-primary bg-primary-container/10 rounded-xl font-semibold'
                 : 'text-on-surface-variant hover:opacity-80'
             }`}
           >
             <Grid className="w-5 h-5 mb-0.5" />
-            <span className="text-[11px] font-bold">Categories</span>
+            <span className="text-[11px] font-semibold">Categories</span>
           </button>
 
           {/* Print Assistant */}
@@ -282,12 +285,12 @@ export default function App() {
             onClick={() => setActiveTab('print')}
             className={`flex flex-col items-center justify-center px-4 py-1.5 transition-all duration-200 cursor-pointer ${
               activeTab === 'print'
-                ? 'text-primary bg-primary-container/10 rounded-xl font-bold'
+                ? 'text-primary bg-primary-container/10 rounded-xl font-semibold'
                 : 'text-on-surface-variant hover:opacity-80'
             }`}
           >
             <Printer className="w-5 h-5 mb-0.5" />
-            <span className="text-[11px] font-bold">Print</span>
+            <span className="text-[11px] font-semibold">Print</span>
           </button>
 
         </nav>
@@ -319,7 +322,7 @@ export default function App() {
               {/* Header */}
               <div className="flex justify-between items-center px-6 py-4 border-b border-neutral-100 sticky top-0 bg-white z-10">
                 <div>
-                  <h3 className="text-base font-extrabold text-on-surface">Checkout Billing</h3>
+                  <h3 className="text-base font-semibold text-on-surface">Checkout Billing</h3>
                   <p className="text-xs text-outline">{totalItemsCount} products selected</p>
                 </div>
                 <button
@@ -335,7 +338,7 @@ export default function App() {
               <div className="p-6 flex flex-col gap-5 flex-1 overflow-y-auto">
                 {/* Store Items list */}
                 <div>
-                  <h4 className="text-xs font-extrabold text-on-surface uppercase tracking-wider mb-2">My Shopping Bag</h4>
+                  <h4 className="text-xs font-semibold text-on-surface uppercase tracking-wider mb-2">My Shopping Bag</h4>
                   <div className="flex flex-col gap-2.5 max-h-[220px] overflow-y-auto hide-scrollbar pr-1">
                     {cartItems.map((item) => (
                       <div key={item.product.id} className="flex justify-between items-center text-xs p-2 bg-neutral-50 rounded-xl border border-neutral-100">
@@ -347,13 +350,13 @@ export default function App() {
                             className="w-9 h-9 object-contain bg-white rounded-lg p-0.5 border border-neutral-100"
                           />
                           <div className="min-w-0">
-                            <h5 className="font-bold text-on-surface truncate">{item.product.name}</h5>
+                            <h5 className="font-semibold text-on-surface truncate">{item.product.name}</h5>
                             <span className="text-[10px] text-outline">{item.product.weight}</span>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="text-[10px] font-bold text-outline">{item.quantity} x ₹{item.product.price}</span>
-                          <span className="font-bold text-on-surface font-mono text-right min-w-[40px]">₹{item.quantity * item.product.price}</span>
+                          <span className="text-[10px] font-semibold text-outline">{item.quantity} x ₹{item.product.price}</span>
+                          <span className="font-semibold text-on-surface font-mono text-right min-w-[40px]">₹{item.quantity * item.product.price}</span>
                         </div>
                       </div>
                     ))}
@@ -364,7 +367,7 @@ export default function App() {
                 <div className="bg-emerald-50/50 border border-primary/10 rounded-xl p-3.5 flex items-start gap-2.5 text-xs">
                   <MapPin className="w-4 h-4 text-primary mt-0.5" />
                   <div>
-                    <h4 className="font-extrabold text-primary">Delivering to Home</h4>
+                    <h4 className="font-semibold text-primary">Delivering to Home</h4>
                     <p className="text-on-surface-variant leading-relaxed mt-0.5">Flat 402, Royal Palms, Sector 15, Gurgaon, Haryana - 122001</p>
                   </div>
                 </div>
@@ -374,11 +377,11 @@ export default function App() {
                   <div className="flex items-center gap-2.5">
                     <CreditCard className="w-4 h-4 text-secondary" />
                     <div>
-                      <h4 className="font-extrabold text-on-surface">Google Pay UPI</h4>
+                      <h4 className="font-semibold text-on-surface">Google Pay UPI</h4>
                       <p className="text-outline text-[10px]">m.ajnas@oksbi</p>
                     </div>
                   </div>
-                  <span className="text-[10px] bg-primary-container/20 text-primary font-bold px-2 py-0.5 rounded">
+                  <span className="text-[10px] bg-primary-container/20 text-primary font-semibold px-2 py-0.5 rounded">
                     Selected
                   </span>
                 </div>
@@ -387,23 +390,23 @@ export default function App() {
                 <div className="border-t border-dashed border-neutral-200 pt-4 flex flex-col gap-2 font-mono text-xs">
                   <div className="flex justify-between">
                     <span className="text-outline">Basket Subtotal:</span>
-                    <span className="font-bold text-on-surface">₹{totalCartPrice}</span>
+                    <span className="font-semibold text-on-surface">₹{totalCartPrice}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-outline">Taxes & packing charge:</span>
-                    <span className="font-bold text-on-surface">₹{Math.round(totalCartPrice * 0.05)}</span>
+                    <span className="font-semibold text-on-surface">₹{Math.round(totalCartPrice * 0.05)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-outline">Rider Handling fee:</span>
-                    <span className="font-bold text-on-surface">₹15</span>
+                    <span className="font-semibold text-on-surface">₹15</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-outline">Delivery Partner charge:</span>
-                    <span className="font-bold text-on-surface">
-                      {totalCartPrice > 200 ? <span className="text-primary font-bold">FREE</span> : '₹25'}
+                    <span className="font-semibold text-on-surface">
+                      {totalCartPrice > 200 ? <span className="text-primary font-semibold">FREE</span> : '₹25'}
                     </span>
                   </div>
-                  <div className="flex justify-between border-t border-neutral-200 pt-2 text-sm font-extrabold text-on-surface font-sans">
+                  <div className="flex justify-between border-t border-neutral-200 pt-2 text-sm font-semibold text-on-surface font-sans">
                     <span>Grand Total Bill:</span>
                     <span>₹{totalCartPrice + Math.round(totalCartPrice * 0.05) + 15 + (totalCartPrice > 200 ? 0 : 25)}</span>
                   </div>
@@ -414,7 +417,7 @@ export default function App() {
                   id="place-order-btn"
                   onClick={handlePlaceOrder}
                   whileTap={{ scale: 0.98 }}
-                  className="mt-2 w-full bg-primary hover:bg-primary/95 text-on-primary py-3.5 rounded-xl font-bold tracking-wider text-xs uppercase flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
+                  className="mt-2 w-full bg-primary hover:bg-primary/95 text-on-primary py-3.5 rounded-xl font-semibold tracking-wider text-xs uppercase flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
                 >
                   <Check className="w-4 h-4" />
                   <span>Slide to Place Order</span>
