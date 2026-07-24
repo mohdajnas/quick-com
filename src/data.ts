@@ -1,4 +1,4 @@
-import { Category, Product, UserAddress, OrderHistoryItem } from './types';
+import { Category, Product, UserAddress, OrderHistoryItem, Advertisement } from './types';
 
 export const CATEGORIES: Category[] = [
   {
@@ -30,6 +30,48 @@ export const CATEGORIES: Category[] = [
     name: 'Bakery',
     icon: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBgSAHH3RNHEuAH36xRnJdGsbF59zuW9IKGZSjrci6N3yAI01VfJGaLJmvA0qtlstJ4e_nDxsspo_7VaMOigM2XPXctAIa06kQP_lp5SEW092w2PALuq5B9lUABmID93g8zCR6LRsQK6UkGmYHyZCaUbY30KcEZ3W8lNdm60v2WnUqu0sH3T6ufhKwxDZSs6BZLtBpOBDV_OL6_hpsRcQQVBKr5Yc_5d9jRmYja3Z0QXcYGwc7iKB1kg',
     color: 'bg-orange-50'
+  }
+];
+
+export const ADVERTISEMENTS: Advertisement[] = [
+  {
+    id: 'ad_1',
+    title: 'Mega Fruit Festival!',
+    description: 'Get fresh seasonal mangoes, bananas & premium apples at jaw-dropping discounts.',
+    tag: 'FARM FRESH',
+    bgClass: 'bg-gradient-to-r from-amber-500 via-orange-500 to-red-500',
+    textClass: 'text-white',
+    tagBgClass: 'bg-white/20 text-white',
+    code: 'FRUIT30',
+    discount: 'Up to 30% Off',
+    catId: 'fruits',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDq9iEvG0Ce30wYUZzIAqda3Udx2D0OBZqYlnqXa09xHshq0QGCBi8LilgC95KAm5X5DdTNSTHCY8t1u034RqD5sNGpbsxK9u2xyOKaMEnfjBZ3HYavQ9GUfoXzsF7m3E5umweWkvVQUco6K-pC2_Z6Gy4DknOGoJQsQDagifzGW5Sumwy9Jn8QThssZX0ellIIuKoEbu2ycaqBqNiNMUb98NNtyPaoCIA5v7fNhfG_9GUE4gY_Vvwlrg'
+  },
+  {
+    id: 'ad_2',
+    title: 'Midnight Munchies Craving?',
+    description: 'Crispy chips, hot savory namkeens, and sweet chocolates delivered instantly.',
+    tag: 'LATE NIGHTS',
+    bgClass: 'bg-gradient-to-r from-purple-800 via-indigo-800 to-indigo-950',
+    textClass: 'text-white',
+    tagBgClass: 'bg-purple-500/30 text-purple-200',
+    code: 'CRAVE50',
+    discount: 'Buy 1 Get 1 Free',
+    catId: 'munchies',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByadZx4jEGv5OClIIFTEFfz3VuaczDsZ22IO70LuhuR1HkOTubhAsibDUEqnIE7H-K769RWIu02sR5zfIS-U-7n03-997uJLqjEVXv4q6HsbBZ7QKmnX8Ezm3ZVjsEevZbKOy_Q3SzUeoH__VN5rVrqNqm0JtMaBQfKXA5GVFxhHMuiEYv-zT-6odk4ijHoJAs2OAGCW3_lTIBdSCReTMOP0KOvoKQ7TDVjVrl0woLchg2ug-K3z0J7A'
+  },
+  {
+    id: 'ad_3',
+    title: 'Beat the Summer Heat!',
+    description: 'Carbonated cold soft drinks, refreshing juices & pure water chilled to perfection.',
+    tag: 'REFRESHING',
+    bgClass: 'bg-gradient-to-r from-sky-400 via-blue-500 to-blue-700',
+    textClass: 'text-white',
+    tagBgClass: 'bg-white/25 text-white',
+    code: 'CHILL15',
+    discount: '15% Off Liquids',
+    catId: 'drinks',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAXdyINAMFM6aYAIvsJlnPdzRQH_JMOdP1RpOcyMWDr5o5PXVODqlT2d1-R7Mw9d-AM8iZ5IQC2wBqu_OYewArviaTioHM31QBcqrZJcNcdAaa9SWDQsWTrDYCGMipd_rdkPvIzUzHt-h33gqgIfZVH1IiPIoxCFg9OFEjCfySR89kteqKhKNmp-hsXsSAVZLb3NRG14viGZIf_2CG5r59C9NPwSwBAa5cWXeF7-Pt0OGoOnb8IG7cDVg'
   }
 ];
 

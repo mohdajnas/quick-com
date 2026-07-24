@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UserAddress, OrderHistoryItem, Product } from '../types';
 import { MOCK_ADDRESSES, MOCK_ORDERS, PRODUCTS } from '../data';
-import { User, MapPin, Package, Settings, Bell, Shield, Plus, Edit2, Check, RefreshCw, Bike, Heart } from 'lucide-react';
+import { User, MapPin, Package, Settings, Bell, Shield, Plus, Edit2, Check, RefreshCw, Bike, Heart, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface ProfileViewProps {
@@ -16,6 +16,7 @@ interface ProfileViewProps {
   } | null;
   onCancelActiveOrder?: () => void;
   onAdvanceActiveOrderStatus?: () => void;
+  onLogout?: () => void;
 }
 
 export default function ProfileView({
@@ -24,6 +25,7 @@ export default function ProfileView({
   activeOrder,
   onCancelActiveOrder,
   onAdvanceActiveOrderStatus,
+  onLogout,
 }: ProfileViewProps) {
   const [addresses, setAddresses] = useState<UserAddress[]>(MOCK_ADDRESSES);
   const [editingAddrId, setEditingAddrId] = useState<string | null>(null);
@@ -255,6 +257,22 @@ export default function ProfileView({
         </div>
       </div>
 
+      {/* Admin Access Button */}
+      <button 
+        onClick={() => window.location.href = '/admin'}
+        className="w-full mt-2 bg-neutral-800 text-white p-4 rounded-xl flex items-center justify-between shadow-sm cursor-pointer hover:bg-neutral-900 transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-neutral-700 flex items-center justify-center">
+            <Settings className="w-4 h-4" />
+          </div>
+          <div className="text-left">
+            <span className="font-semibold block text-sm">Admin Dashboard</span>
+            <span className="text-xs text-neutral-400">Manage products, offers, orders</span>
+          </div>
+        </div>
+      </button>
+
       {/* Order History Bento */}
       <div className="bg-white border border-neutral-200/60 rounded-2xl p-5 flex flex-col gap-4 shadow-xs">
         <h3 className="text-sm font-semibold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
@@ -315,6 +333,15 @@ export default function ProfileView({
           <p className="text-[10px] text-outline uppercase font-semibold mt-0.5">Using Super Coupons</p>
         </div>
       </div>
+
+      {/* Logout Button */}
+      <button 
+        onClick={onLogout}
+        className="w-full mt-2 bg-red-50 text-red-600 p-4 rounded-xl flex items-center justify-center gap-2 shadow-sm cursor-pointer hover:bg-red-100 transition-colors font-semibold"
+      >
+        <LogOut className="w-5 h-5" />
+        <span>Log Out</span>
+      </button>
     </div>
   );
 }

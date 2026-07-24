@@ -1,50 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Category, Product } from '../types';
-import { CATEGORIES, PRODUCTS } from '../data';
+import { Category, Product, Advertisement } from '../types';
+import { CATEGORIES } from '../data';
 import { Search, MapPin, Sparkles, TrendingUp, Bike, Clock, ArrowRight, Zap, Flame, Gift, Percent, ChevronLeft, ChevronRight, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-
-const ADVERTISEMENTS = [
-  {
-    id: 'ad_1',
-    title: 'Mega Fruit Festival!',
-    description: 'Get fresh seasonal mangoes, bananas & premium apples at jaw-dropping discounts.',
-    tag: 'FARM FRESH',
-    bgClass: 'bg-gradient-to-r from-amber-500 via-orange-500 to-red-500',
-    textClass: 'text-white',
-    tagBgClass: 'bg-white/20 text-white',
-    code: 'FRUIT30',
-    discount: 'Up to 30% Off',
-    catId: 'fruits',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDq9iEvG0Ce30wYUZzIAqda3Udx2D0OBZqYlnqXa09xHshq0QGCBi8LilgC95KAm5X5DdTNSTHCY8t1u034RqD5sNGpbsxK9u2xyOKaMEnfjBZ3HYavQ9GUfoXzsF7m3E5umweWkvVQUco6K-pC2_Z6Gy4DknOGoJQsQDagifzGW5Sumwy9Jn8QThssZX0ellIIuKoEbu2ycaqBqNiNMUb98NNtyPaoCIA5v7fNhfG_9GUE4gY_Vvwlrg'
-  },
-  {
-    id: 'ad_2',
-    title: 'Midnight Munchies Craving?',
-    description: 'Crispy chips, hot savory namkeens, and sweet chocolates delivered instantly.',
-    tag: 'LATE NIGHTS',
-    bgClass: 'bg-gradient-to-r from-purple-800 via-indigo-800 to-indigo-950',
-    textClass: 'text-white',
-    tagBgClass: 'bg-purple-500/30 text-purple-200',
-    code: 'CRAVE50',
-    discount: 'Buy 1 Get 1 Free',
-    catId: 'munchies',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByadZx4jEGv5OClIIFTEFfz3VuaczDsZ22IO70LuhuR1HkOTubhAsibDUEqnIE7H-K769RWIu02sR5zfIS-U-7n03-997uJLqjEVXv4q6HsbBZ7QKmnX8Ezm3ZVjsEevZbKOy_Q3SzUeoH__VN5rVrqNqm0JtMaBQfKXA5GVFxhHMuiEYv-zT-6odk4ijHoJAs2OAGCW3_lTIBdSCReTMOP0KOvoKQ7TDVjVrl0woLchg2ug-K3z0J7A'
-  },
-  {
-    id: 'ad_3',
-    title: 'Beat the Summer Heat!',
-    description: 'Carbonated cold soft drinks, refreshing juices & pure water chilled to perfection.',
-    tag: 'REFRESHING',
-    bgClass: 'bg-gradient-to-r from-sky-400 via-blue-500 to-blue-700',
-    textClass: 'text-white',
-    tagBgClass: 'bg-white/25 text-white',
-    code: 'CHILL15',
-    discount: '15% Off Liquids',
-    catId: 'drinks',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAXdyINAMFM6aYAIvsJlnPdzRQH_JMOdP1RpOcyMWDr5o5PXVODqlT2d1-R7Mw9d-AM8iZ5IQC2wBqu_OYewArviaTioHM31QBcqrZJcNcdAaa9SWDQsWTrDYCGMipd_rdkPvIzUzHt-h33gqgIfZVH1IiPIoxCFg9OFEjCfySR89kteqKhKNmp-hsXsSAVZLb3NRG14viGZIf_2CG5r59C9NPwSwBAa5cWXeF7-Pt0OGoOnb8IG7cDVg'
-  }
-];
 
 interface HomeViewProps {
   onSelectCategory: (categoryId: string) => void;
@@ -54,6 +12,8 @@ interface HomeViewProps {
   onProfileClick: () => void;
   language: 'en' | 'ml';
   setLanguage: (lang: 'en' | 'ml') => void;
+  products: Product[];
+  advertisements: Advertisement[];
 }
 
 export default function HomeView({
@@ -64,27 +24,32 @@ export default function HomeView({
   onProfileClick,
   language,
   setLanguage,
+  products,
+  advertisements,
 }: HomeViewProps) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   // Auto scroll slides
   useEffect(() => {
+    if (advertisements.length === 0) return;
     const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % ADVERTISEMENTS.length);
+      setActiveSlide((prev) => (prev + 1) % advertisements.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [advertisements.length]);
 
   const handleNextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % ADVERTISEMENTS.length);
+    if (advertisements.length === 0) return;
+    setActiveSlide((prev) => (prev + 1) % advertisements.length);
   };
 
   const handlePrevSlide = () => {
-    setActiveSlide((prev) => (prev - 1 + ADVERTISEMENTS.length) % ADVERTISEMENTS.length);
+    if (advertisements.length === 0) return;
+    setActiveSlide((prev) => (prev - 1 + advertisements.length) % advertisements.length);
   };
 
   // Get trending products (with a tag or just 4 select items)
-  const trendingProducts = PRODUCTS.slice(0, 4);
+  const trendingProducts = products.slice(0, 4);
 
   return (
     <div className="flex flex-col pb-24">
@@ -143,8 +108,24 @@ export default function HomeView({
       <div className="px-4 pt-4">
         <div className="relative rounded-2xl overflow-hidden shadow-sm border border-neutral-150 h-52 group/carousel">
           <AnimatePresence mode="wait">
-            {ADVERTISEMENTS.map((ad, idx) => {
+            {advertisements.map((ad, idx) => {
               if (idx !== activeSlide) return null;
+              if (ad.type === 'image') {
+                return (
+                  <motion.div
+                    key={ad.id}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.35 }}
+                    className="absolute inset-0 cursor-pointer"
+                    onClick={() => onSelectCategory(ad.catId)}
+                  >
+                    <img src={ad.image} alt={ad.title || 'Advertisement'} className="w-full h-full object-cover" />
+                  </motion.div>
+                );
+              }
+
               return (
                 <motion.div
                   key={ad.id}
@@ -233,7 +214,7 @@ export default function HomeView({
 
           {/* Indicator Dot Controls */}
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 pointer-events-auto">
-            {ADVERTISEMENTS.map((_, idx) => (
+            {advertisements.map((_, idx) => (
               <button
                 key={idx}
                 id={`carousel-dot-${idx}`}

@@ -9,6 +9,21 @@ export interface Product {
   tag?: string; // e.g. "URGENT", "OFFER", "POPULAR", "FRESH"
 }
 
+export interface Advertisement {
+  id: string;
+  type?: 'text' | 'image';
+  title: string;
+  description: string;
+  tag: string;
+  bgClass: string;
+  textClass: string;
+  tagBgClass: string;
+  code: string;
+  discount: string;
+  catId: string;
+  image: string;
+}
+
 export interface Category {
   id: string;
   name: string;
@@ -32,6 +47,6 @@ export interface OrderHistoryItem {
   date: string;
   itemsCount: number;
   total: number;
-  status: 'Delivered' | 'In Transit' | 'Cancelled';
+  status: 'Confirmed' | 'Packing' | 'Out for Delivery' | 'Delivered' | 'Cancelled';
   items: { productName: string; quantity: number; price: number }[];
 }

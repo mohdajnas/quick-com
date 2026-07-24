@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Category, Product } from '../types';
-import { CATEGORIES, PRODUCTS } from '../data';
-import { Search, Mic, ArrowLeft, RotateCcw, AlertCircle, ShoppingBag } from 'lucide-react';
+import { CATEGORIES } from '../data';
+import { Search, Mic, ArrowLeft, RotateCcw, AlertCircle } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -14,6 +14,7 @@ interface CategoriesViewProps {
   onAddToCart: (product: Product) => void;
   onIncreaseQuantity: (productId: string) => void;
   onDecreaseQuantity: (productId: string) => void;
+  products: Product[];
 }
 
 export default function CategoriesView({
@@ -25,6 +26,7 @@ export default function CategoriesView({
   onAddToCart,
   onIncreaseQuantity,
   onDecreaseQuantity,
+  products,
 }: CategoriesViewProps) {
   const [isListening, setIsListening] = useState(false);
   const [voiceTip, setVoiceTip] = useState('');
@@ -45,7 +47,7 @@ export default function CategoriesView({
         setVoiceTip('');
         
         // Auto-navigate to correct category based on the preset search
-        const matchedProd = PRODUCTS.find(p => p.name.toLowerCase().includes(selectedKeyword.toLowerCase()));
+        const matchedProd = products.find(p => p.name.toLowerCase().includes(selectedKeyword.toLowerCase()));
         if (matchedProd) {
           setSelectedCategoryId(matchedProd.category);
         }
@@ -55,7 +57,7 @@ export default function CategoriesView({
 
   // Filter products by category AND search query
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((product) => {
+    return products.filter((product) => {
       const matchesCategory = product.category === selectedCategoryId;
       const matchesSearch =
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -135,45 +137,46 @@ export default function CategoriesView({
         </div>
       </header>
 
-      {/* Two-Column Workspace Layout */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Side: Category Navigation Rail */}
-        <aside className="w-24 bg-surface-container-low flex-shrink-0 overflow-y-auto hide-scrollbar border-r border-outline-variant/20">
-          <nav className="flex flex-col">
-            {CATEGORIES.map((cat) => {
-              const isActive = cat.id === selectedCategoryId && !searchQuery;
-              return (
-                <button
-                  key={cat.id}
-                  id={`cat-rail-${cat.id}`}
-                  onClick={() => {
-                    setSelectedCategoryId(cat.id);
-                    setSearchQuery(''); // clear search when switching tabs
-                  }}
-                  className={`flex flex-col items-center py-4 gap-1.5 transition-all relative cursor-pointer ${
-                    isActive
-                      ? 'border-r-4 border-primary bg-white text-primary font-semibold'
-                      : 'text-on-surface-variant hover:bg-surface-container/60'
-                  }`}
-                >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-                    isActive ? 'bg-primary-container/10' : 'bg-surface-container-highest'
-                  }`}>
-                    <img
-                      src={cat.icon}
-                      alt={cat.name}
-                      referrerPolicy="no-referrer"
-                      className="w-10 h-10 object-contain"
-                    />
-                  </div>
-                  <span className="text-[11px] font-semibold tracking-wider text-center px-1">
-                    {cat.name}
-                  </span>
-                </button>
-              );
-            })}
-          </nav>
-        </aside>
+      {/* Single-Column Workspace Layout with Top Categories */}
+      <div className="flex flex-col flex-1 overflow-hidden">
+        {/* Top: Category Navigation Bar */}
+        <nav className="flex overflow-x-auto hide-scrollbar bg-surface-container-low border-b border-outline-variant/20 flex-shrink-0 px-2 py-2 gap-2">
+          {CATEGORIES.map((cat) => {
+            const isActive = cat.id === selectedCategoryId && !searchQuery;
+            return (
+              <button
+                key={cat.id}
+                id={`cat-rail-${cat.id}`}
+                onClick={() => {
+                  setSelectedCategoryId(cat.id);
+                  setSearchQuery(''); // clear search when switching tabs
+                }}
+                className={`flex flex-col items-center p-2 rounded-xl transition-all relative cursor-pointer min-w-[72px] flex-shrink-0 ${
+                  isActive
+                    ? 'bg-white shadow-sm border border-primary/20 text-primary font-semibold'
+                    : 'text-on-surface-variant hover:bg-surface-container/60 border border-transparent'
+                }`}
+              >
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors mb-1 ${
+                  isActive ? 'bg-primary-container/10' : 'bg-surface-container-highest'
+                }`}>
+                  <img
+                    src={cat.icon}
+                    alt={cat.name}
+                    referrerPolicy="no-referrer"
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+                <span className="text-[11px] font-semibold tracking-wider text-center px-1">
+                  {cat.name}
+                </span>
+                {isActive && (
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-1 bg-primary rounded-t-full" />
+                )}
+              </button>
+            );
+          })}
+        </nav>
 
         {/* Right Side: Product Catalog Grid */}
         <section className="flex-1 bg-white overflow-y-auto hide-scrollbar p-4">

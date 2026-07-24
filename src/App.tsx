@@ -5,21 +5,37 @@
 
 import { useState, useEffect } from 'react';
 import { Product, CartItem, Category } from './types';
-import { PRODUCTS } from './data';
 import HomeView from './components/HomeView';
 import CategoriesView from './components/CategoriesView';
 import PrintView from './components/PrintView';
 import ProfileView from './components/ProfileView';
-import { Home, Grid, Printer, User, ArrowRight, X, Check, MapPin, CreditCard, ShoppingBag } from 'lucide-react';
+import AdminView from './components/AdminView';
+import SwipeToPayButton from './components/SwipeToPayButton';
+import { Home, Grid, Printer, User, ArrowRight, X, Check, MapPin, CreditCard, ShoppingBag, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { PRODUCTS, ADVERTISEMENTS, MOCK_ORDERS } from './data';
+import SplashView from './components/SplashView';
+import LoginView from './components/LoginView';
+import LocationView from './components/LocationView';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'categories' | 'print' | 'profile'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'categories' | 'print' | 'profile' | 'admin'>('home');
   const [language, setLanguage] = useState<'en' | 'ml'>('en');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('dairy');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  
+  // Auth & Splash State
+  const [showSplash, setShowSplash] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLocationSelected, setIsLocationSelected] = useState(false);
+  
+  // CMS State
+  const [products, setProducts] = useState<Product[]>([]);
+  const [advertisements, setAdvertisements] = useState(ADVERTISEMENTS);
+  const [orders, setOrders] = useState(MOCK_ORDERS);
+
   const [activeDelivery, setActiveDelivery] = useState<{
     id: string;
     total: number;
@@ -38,7 +54,50 @@ export default function App() {
         console.error('Error loading cart', e);
       }
     }
+
+    const savedAuth = localStorage.getItem('velocity_auth');
+    if (savedAuth === 'true') {
+      setIsLoggedIn(true);
+    }
+
+    const savedLocation = localStorage.getItem('velocity_location_selected');
+    if (savedLocation === 'true') {
+      setIsLocationSelected(true);
+    }
+
+    // Hide splash after 2.5 seconds
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  // Load CMS data from localStorage on mount
+  useEffect(() => {
+    const savedProducts = localStorage.getItem('velocity_products');
+    const savedAds = localStorage.getItem('velocity_ads');
+    const savedOrders = localStorage.getItem('velocity_orders');
+    
+    if (savedProducts) setProducts(JSON.parse(savedProducts));
+    else setProducts(PRODUCTS);
+
+    if (savedAds) setAdvertisements(JSON.parse(savedAds));
+    if (savedOrders) setOrders(JSON.parse(savedOrders));
+  }, []);
+
+  // Effect to save CMS data
+  useEffect(() => {
+    if (products.length > 0) localStorage.setItem('velocity_products', JSON.stringify(products));
+  }, [products]);
+
+  useEffect(() => {
+    localStorage.setItem('velocity_ads', JSON.stringify(advertisements));
+  }, [advertisements]);
+
+  useEffect(() => {
+    localStorage.setItem('velocity_orders', JSON.stringify(orders));
+  }, [orders]);
 
   // Save cart to localStorage
   const saveCart = (items: CartItem[]) => {
@@ -171,6 +230,8 @@ export default function App() {
             onProfileClick={() => setActiveTab('profile')}
             language={language}
             setLanguage={setLanguage}
+            products={products}
+            advertisements={advertisements}
           />
         );
       case 'categories':
@@ -184,6 +245,7 @@ export default function App() {
             onAddToCart={handleAddToCart}
             onIncreaseQuantity={handleIncreaseQuantity}
             onDecreaseQuantity={handleDecreaseQuantity}
+            products={products}
           />
         );
       case 'print':
@@ -202,15 +264,72 @@ export default function App() {
             activeOrder={activeDelivery}
             onCancelActiveOrder={() => setActiveDelivery(null)}
             onAdvanceActiveOrderStatus={handleAdvanceOrderStatus}
+            onLogout={handleLogout}
           />
         );
     }
   };
 
+  if (window.location.pathname === '/admin') {
+    return (
+      <div className={`w-full h-screen bg-surface-container-lowest ${language === 'ml' ? 'font-ml' : ''}`}>
+        <AdminView 
+          products={products}
+          setProducts={setProducts}
+          advertisements={advertisements}
+          setAdvertisements={setAdvertisements}
+          orders={orders}
+          setOrders={setOrders}
+        />
+      </div>
+    );
+  }
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('velocity_auth', 'true');
+  };
+
+  const handleLocationSelect = () => {
+    setIsLocationSelected(true);
+    localStorage.setItem('velocity_location_selected', 'true');
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setIsLocationSelected(false);
+    localStorage.removeItem('velocity_auth');
+    localStorage.removeItem('velocity_location_selected');
+    setActiveTab('home');
+  };
+
   return (
     <div className={`min-h-screen bg-neutral-50 text-on-surface select-none relative pb-16 ${language === 'ml' ? 'font-ml' : ''}`}>
+      <AnimatePresence>
+        {showSplash && <SplashView key="splash" />}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {!showSplash && !isLoggedIn && (
+          <LoginView 
+            key="login" 
+            onLogin={handleLogin} 
+            onSkip={handleLogin} 
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {!showSplash && isLoggedIn && !isLocationSelected && (
+          <LocationView 
+            key="location"
+            onLocationSelect={handleLocationSelect}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Top Main Application viewport */}
-      <main className="w-full max-w-lg mx-auto bg-white min-h-screen shadow-md flex flex-col relative overflow-x-hidden">
+      <main className={`w-full max-w-lg mx-auto bg-white min-h-screen shadow-md flex flex-col relative overflow-x-hidden ${(!isLoggedIn || !isLocationSelected || showSplash) ? 'hidden' : ''}`}>
         {/* Dynamic Screen View */}
         <div className="flex-1">
           {renderActiveView()}
@@ -413,15 +532,10 @@ export default function App() {
                 </div>
 
                 {/* Swipe/Click to Pay Simulator Button */}
-                <motion.button
-                  id="place-order-btn"
-                  onClick={handlePlaceOrder}
-                  whileTap={{ scale: 0.98 }}
-                  className="mt-2 w-full bg-primary hover:bg-primary/95 text-on-primary py-3.5 rounded-xl font-semibold tracking-wider text-xs uppercase flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
-                >
-                  <Check className="w-4 h-4" />
-                  <span>Slide to Place Order</span>
-                </motion.button>
+                <SwipeToPayButton 
+                  onConfirm={handlePlaceOrder} 
+                  totalAmount={totalCartPrice + Math.round(totalCartPrice * 0.05) + 15 + (totalCartPrice > 200 ? 0 : 25)} 
+                />
               </div>
             </motion.div>
           </>
